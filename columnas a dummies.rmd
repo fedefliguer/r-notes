@@ -24,7 +24,7 @@ for(columna in campos_categoricos) # Por cada columna que resultó categórica
       # Condición para que queden estructuradas todas igual (puede no ser necesaria)
       if(grepl('^cd', columna)) 
       {
-        tx_columna_dummy <- c( paste0(sub('^cd', 'fl', tolower(columna)), '_', gsub(" ", "", valor)))
+        tx_columna_dummy <- c( paste0(sub('^cd', 'fl', tolower(columna)), '', gsub(" ", "", valor)))
       } else
       {
         tx_columna_dummy <- c(paste0('fl_', tolower(columna), '_', gsub(" ", "", valor)))
