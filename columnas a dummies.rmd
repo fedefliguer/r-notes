@@ -1,5 +1,5 @@
 # Escribo los nombres de las que resultarán categóricas
-campos_categoricos <- c('cd_civil', 'cd_provincia', 'cd_mod_atencion','cd_nivel_estudios', 'cd_profesion', 'cd_act_econ_bgba', 'cd_iva', 'cd_clasificacion_princ_3','cd_clasificacion_princ_m', 'cd_clasificacion_princ_50','cd_monotributo','cd_actividad_afip','tx_campaign_stt_agrup','tx_medium_stt','tx_fuente_min_stt','tx_fuente_max_stt','tx_channel_group_min_stt','tx_channel_group_max_stt','tx_browser_min_stt','tx_browser_max_stt','tx_browserVersion_stt','tx_modelo_agrup_stt','tx_so_stt','tx_mobile_marca_stt','tx_language_stt','tx_screen_resolution_stt','tx_region_stt','tx_dominio_network_stt','tx_ubicacion_network_stt','tx_city_stt', 'keyword_stt')
+campos_categoricos <- c('cd_civil', 'cd_provincia', 'cd_mod_atencion',...)
 
 # Creo df con esos dummies
 df_dummies <- as.data.table(df[,campos_categoricos])
