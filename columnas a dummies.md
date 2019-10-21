@@ -32,7 +32,8 @@ for(columna in campos_categoricos)
   agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ] # Me quedo únicamente con campos que tengan más del 0.5% de la frecuencia
   for(n in 1:nrow(agrupado)) # Por cada campo
   {
-    valor <- as.character(agrupado[n, ..columna][[1]]) # Defino el nombre del campo que buscará luego la función
+    valor <- as.character(agrupado[n, ..columna][[1]])
+    # Defino el nombre del campo que buscará luego la función
     if(valor != '' & !is.na(valor)) # Únicamente cuando el campo no es nulo ni vacío
     {
       # Condición para que queden estructuradas todas igual (puede no ser necesaria)
