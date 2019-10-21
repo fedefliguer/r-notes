@@ -1,3 +1,5 @@
+library(data.table)
+
 # Escribo los nombres de las que resultarán categóricas
 campos_categoricos <- c('cd_civil', 'cd_provincia', 'cd_mod_atencion',...)
 
