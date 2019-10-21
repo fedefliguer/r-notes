@@ -28,7 +28,7 @@ f_flag = function(valor_columna) return( ifelse( valor_columna %in% valor, 1, 0 
 ```{r}
 for(columna in campos_categoricos)
 {
-  agrupado <- setorder(df_dummies[, .N, by = eval((columna))]) <Busco los campos (las opciones de respuesta) con su frecuencia>
+  agrupado <- setorder(df_dummies[, .N, by = eval((columna))]) <!--- just ---> <Busco los campos (las opciones de respuesta) con su frecuencia>
   agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ] # Me quedo únicamente con campos que tengan más del 0.5% de la frecuencia
   for(n in 1:nrow(agrupado)) # Por cada campo
   {
