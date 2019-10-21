@@ -10,13 +10,11 @@ df_dummies <- as.data.table(df[,campos_categoricos])
 df_dummies[ , lapply(.SD, factor)] # .SD significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
 
 
-### Creo la función para binarizar
-```{r}
+# Creo la función para binarizar
 f_flag = function(valor_columna) return( ifelse( valor_columna %in% valor, 1, 0 ) )
-```
 
-### Proceso por columnas
-```{r}
+# Proceso por columnas
+
 # Recuperamos los tres primeros elementos de la lista resultados
 
 for(columna in campos_categoricos)
@@ -41,5 +39,4 @@ for(columna in campos_categoricos)
   }
   df_dummies[, (columna) := NULL]
 }
-```
 
