@@ -14,9 +14,9 @@ df_dummies <- as.data.table(df[,campos_categoricos])
 
 ### Transformo cada una en categórica
 ```{r}
-df_dummies[ , lapply(.SD, factor)] # sd significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
+df_dummies[ , lapply(.SD, factor)]
 ```
-
+sd significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
 
 
 ### Creo la función para binarizar
