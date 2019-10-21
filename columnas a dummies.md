@@ -16,13 +16,17 @@ df_dummies <- as.data.table(df[,campos_categoricos])
 ```{r}
 df_dummies[ , lapply(.SD, factor)]
 ```
-sd significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
+.SD significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
 
 
 ### Creo la función para binarizar
+```{r}
 f_flag = function(valor_columna) return( ifelse( valor_columna %in% valor, 1, 0 ) )
+```
 
-for(columna in campos_categoricos) # Por cada columna que resultó categórica
+### Proceso por columnas
+```{r}
+for(columna in campos_categoricos)
 {
   agrupado <- setorder(df_dummies[, .N, by = eval((columna))]) # Busco los campos (las opciones de respuesta) con su frecuencia
   agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ] # Me quedo únicamente con campos que tengan más del 0.5% de la frecuencia
@@ -44,3 +48,5 @@ for(columna in campos_categoricos) # Por cada columna que resultó categórica
   }
   df_dummies[, (columna) := NULL]
 }
+```
+
