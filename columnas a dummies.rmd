@@ -1,0 +1,34 @@
+# Escribo los nombres de las que resultarán categóricas
+campos_categoricos <- c('cd_civil', 'cd_provincia', 'cd_mod_atencion','cd_nivel_estudios', 'cd_profesion', 'cd_act_econ_bgba', 'cd_iva', 'cd_clasificacion_princ_3','cd_clasificacion_princ_m', 'cd_clasificacion_princ_50','cd_monotributo','cd_actividad_afip','tx_campaign_stt_agrup','tx_medium_stt','tx_fuente_min_stt','tx_fuente_max_stt','tx_channel_group_min_stt','tx_channel_group_max_stt','tx_browser_min_stt','tx_browser_max_stt','tx_browserVersion_stt','tx_modelo_agrup_stt','tx_so_stt','tx_mobile_marca_stt','tx_language_stt','tx_screen_resolution_stt','tx_region_stt','tx_dominio_network_stt','tx_ubicacion_network_stt','tx_city_stt', 'keyword_stt')
+
+# Creo df con esos dummies
+df_dummies <- as.data.table(df[,campos_categoricos])
+
+# Transformo cada una en categórica
+df_dummies[ , lapply(.SD, factor)] # sd significa subsetdata. Lappy calcula una función para todos los elementos de una lista(factor es para crear variable categórica)  
+
+# Creo la función para binarizar
+f_flag = function(valor_columna) return( ifelse( valor_columna %in% valor, 1, 0 ) )
+
+for(columna in campos_categoricos) # Por cada columna que resultó categórica
+{
+  agrupado <- setorder(df_dummies[, .N, by = eval((columna))]) # Busco los campos (las opciones de respuesta) con su frecuencia
+  agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ] # Me quedo únicamente con campos que tengan más del 0.5% de la frecuencia
+  for(n in 1:nrow(agrupado)) # Por cada campo
+  {
+    valor <- as.character(agrupado[n, ..columna][[1]]) # Defino el nombre del campo que buscará luego la función
+    if(valor != '' & !is.na(valor)) # Únicamente cuando el campo no es nulo ni vacío
+    {
+      # Condición para que queden estructuradas todas igual (puede no ser necesaria)
+      if(grepl('^cd', columna)) 
+      {
+        tx_columna_dummy <- c( paste0(sub('^cd', 'fl', tolower(columna)), '_', gsub(" ", "", valor)))
+      } else
+      {
+        tx_columna_dummy <- c(paste0('fl_', tolower(columna), '_', gsub(" ", "", valor)))
+      }
+      df_dummies[, (tx_columna_dummy) := lapply(.SD, f_flag), .SDcols = columna] # Por cada campo pido que se ejecute la función que binariza
+    }
+  }
+  df_dummies[, (columna) := NULL]
+}
