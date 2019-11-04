@@ -1,3 +1,4 @@
+output: rmarkdown::github_document
 library(tidyverse)
 
 # Forma convencional de hacer loops
