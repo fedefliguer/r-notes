@@ -15,13 +15,28 @@ cuadrado <- function(valor1) {
      valor1^2
  }
 
-map(.x = c(1:10), .f = cuadrado)
+map_dbl(.x = c(1:10), .f = cuadrado) # map_dbl devuelve lo mismo que map pero en forma de vector.
 
 ### Opción 2: función implícita
-map_dbl(.x = c(1:10), .f = function(x) x^2) # En este caso no se usa ningún parámetro adicional, calculando el cuadrado. map_dbl devuelve lo mismo que map pero en forma de vector.
+map_dbl(.x = c(1:10), .f = function(x) x^2)
 
 ### Opción 3: función gamma, ni siquiera declarando funciones
 map_dbl(.x = c(1:10),.f = ~.x^2) 
 
 ## Para casos en los que el loop tiene una función con dos inputs (y parámetros adicionales)
 map2_dbl(.x = c(1:10),.y = c(11:20),.f =  function(x,y) x*y)
+
+### Opción 1: formalizar la función
+producto <- function(valor1, valor2) {
+     valor1*valor2
+ }
+
+map2_dbl(.x = c(1:10), .y = c(11:20), .f = producto) # map_dbl devuelve lo mismo que map pero en forma de vector.
+
+### Opción 2: función implícita
+map2_dbl(.x = c(1:10),.y = c(11:20),.f =  function(x,y) x*y)
+
+### Opción 3: función gamma, ni siquiera declarando funciones
+map2_dbl(.x = c(1:10),.y = c(11:20),.f = ~.x*.y)
+
+         
