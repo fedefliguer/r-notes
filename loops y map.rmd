@@ -39,4 +39,4 @@ map2_dbl(.x = c(1:10),.y = c(11:20),.f =  function(x,y) x*y)
 ### Opción 3: función gamma, ni siquiera declarando funciones
 map2_dbl(.x = c(1:10),.y = c(11:20),.f = ~.x*.y)
 
-map y map2 iteran en paralelo sobre dos listas, por lo que no valen para casos en los que, por ejemplo, se quiera el producto de cacda elemento en c(1:10) por cada elemento en c(11:20), una lista de 100 resultados en vez de 10. Para ese caso hay que usar cross2 de la librería purrr.
+_map y map2 iteran en paralelo sobre dos listas, por lo que no valen para casos en los que, por ejemplo, se quiera el producto de cacda elemento en c(1:10) por cada elemento en c(11:20), una lista de 100 resultados en vez de 10. Para ese caso hay que usar cross2 de la librería purrr._
