@@ -1,0 +1,79 @@
+library(tidyverse)
+library(dplyr)
+
+# Resumen de la estructura de la tabla
+glimpse(df)
+
+# Filtrar
+## Con AND
+df %>% 
+  filter(INDICE>101 , GRUPO == "Privado_Registrado")
+
+## Con OR
+df %>% 
+  filter(INDICE>101 | GRUPO == "Privado_Registrado")
+
+# Renombrar
+df %>% 
+  rename(Periodo = FECHA)
+  
+# Ordenar
+df %>% 
+  arrange(GRUPO, INDICE)
+  
+# Seleccionar
+df %>% 
+  select(INDICE, FECHA, GRUPO)
+
+# Agrupar
+df %>% 
+  group_by(FECHA)
+
+# Agregar variable
+df <- df %>% 
+  mutate(Doble=INDICE*2)
+  
+## Caso especial: variable case when
+df <- df %>% 
+  mutate(Caso_cuando = case_when(GRUPO == "Privado_Registrado"   ~ INDICE*2,
+                                 GRUPO == "Público"              ~ INDICE*3))
+
+# Aplanar
+df %>% 
+  summarise(Indprom = mean(INDICE))
+  
+# Joinear
+df_join <- df %>% 
+  left_join(.,Ponderadores, by = "GRUPO")
+  
+# Ejemplo de combinadas
+df %>% 
+  group_by(FECHA) %>%
+  summarise(Indprom = mean(INDICE))
+  
+iris <- iris %>% 
+  mutate(id = 1:nrow(.)) %>%  #le agrego un ID
+  select(id, everything()) # lo acomodo para que el id este primero. 
+
+# Filas y columnas
+library(tidyr)
+## A partir de varias columnas, construir una columna que agrande el largo del dataset 
+iris_vertical <- iris %>% gather(., # el . llama a lo que esta atras del %>% 
+                                 key   = Variables,
+                                 value = Valores,
+                                 2:5) #le indico que columnas juntar
+
+## A partir de las filas de una columna, construir varias columnas que achiquen el largo del dataset
+iris_horizontal <- iris_vertical %>%
+  spread(. ,
+         key   = Variables, #la llave es la variable que va a dar los nombres de columna
+         value = Valores) #los valores con que se llenan las celdas
+ 
+# Tratamiento de los DATE
+library(lubridate)
+fecha2 <- parse_date_time(fecha2, orders = 'my')
+year(fecha)
+month(fecha)
+day(fecha)
+hour(fecha)
+fecha + days(2)
