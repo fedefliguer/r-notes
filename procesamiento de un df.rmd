@@ -77,3 +77,13 @@ month(fecha)
 day(fecha)
 hour(fecha)
 fecha + days(2)
+
+# Tratamiento de las anidadas (una columna contiene DFs)
+## Si todas tienen la misma cantidad de columnas
+bases_df <- bases_df %>% unnest()
+
+## Si no todas tienen la misma cantidad de columnas
+bases_df = bases_df %>% 
+              group_by(REGION) %>% 
+              nest() # Con esto cada valor pasa de ser un df a ser un vector
+
