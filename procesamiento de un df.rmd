@@ -4,7 +4,7 @@ library(dplyr)
 # Resumen de la estructura de la tabla
 glimpse(df)
 
-# Filtrar
+# Filtrar por filas
 ## Con AND
 df %>% 
   filter(INDICE>101 , GRUPO == "Privado_Registrado")
@@ -13,17 +13,20 @@ df %>%
 df %>% 
   filter(INDICE>101 | GRUPO == "Privado_Registrado")
 
-# Renombrar
+# Renombrar columna
 df %>% 
   rename(nombreNuevo = nombreViejos)
   
 # Ordenar
 df %>% 
-  arrange(GRUPO, INDICE)
+  arrange(columna, asc|desc)
   
-# Seleccionar
+# Seleccionar por la positiva
 df %>% 
-  select(INDICE, FECHA, GRUPO)
+  select(columnas)
+  
+df %>% 
+  select(-columnas)
 
 # Agrupar
 df %>% 
