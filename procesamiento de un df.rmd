@@ -15,7 +15,7 @@ df %>%
 
 # Renombrar
 df %>% 
-  rename(Periodo = FECHA)
+  rename(nombreNuevo = nombreViejos)
   
 # Ordenar
 df %>% 
