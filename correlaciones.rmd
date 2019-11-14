@@ -1,0 +1,27 @@
+library(corrr)
+library(tidyverse)
+
+# Varias formas de graficar las correlaciones a la vez
+
+ggpairs()
+
+# Forma un poco más ordenada de visualizar esto
+
+mtcars %>% 
+ correlate() %>% 
+  rplot()
+
+# Tabla con todas las correlaciones de Pearson
+
+df %>% 
+ correlate() %>% 
+  shave() %>% 
+  fashion()
+
+# Test de correlación
+
+cor.test(df$columna1,df$columna2)
+
+## En presencia de outliers
+
+cor.test(df$columna1,df$columna2, method = "spearman")
