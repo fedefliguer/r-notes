@@ -34,12 +34,12 @@ df %>%
 
 # Agregar variable
 df <- df %>% 
-  mutate(nombre = *columna * 2 - columna)
+  mutate(nombre = * columna * 2 - columna)
   
 ## Caso especial: variable case when
 df <- df %>% 
-  mutate(nombre = case_when(GRUPO == "Privado_Registrado"   ~ INDICE * 2,
-                                 GRUPO == "Público"         ~ INDICE * 3))
+  mutate(nombre = case_when(GRUPO == "Privado_Registrado" ~ INDICE * 2,
+                            GRUPO == "Público" ~ INDICE * 3))
 
 # Aplanar
 df %>% 
