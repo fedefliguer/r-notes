@@ -3,7 +3,7 @@ library(tidyverse)
 
 # Varias formas de graficar las correlaciones a la vez
 
-ggpairs()
+ggpairs() # O el conjunto de columnas seleccionado
 
 # Forma un poco más ordenada de visualizar esto
 
