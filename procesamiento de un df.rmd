@@ -7,47 +7,47 @@ glimpse(df)
 # Filtrar por filas
 ## Con AND
 df %>% 
-  filter(INDICE>101 , GRUPO == "Privado_Registrado")
+  filter(columna1>101 , columna2 == "Privado_Registrado")
 
 ## Con OR
 df %>% 
-  filter(INDICE>101 | GRUPO == "Privado_Registrado")
+  filter(columna1>101 | columna2 == "Privado_Registrado")
 
 # Renombrar columna
 df %>% 
-  rename(nombreNuevo = nombreViejos)
+  rename(nombreNuevo = columna)
   
 # Ordenar
 df %>% 
-  arrange(columna, asc|desc)
+  arrange(columnasSeparadasPorComas, asc|desc)
   
 # Seleccionar por la positiva
 df %>% 
-  select(columnas)
+  select(columnasSeparadasPorComas)
   
 df %>% 
-  select(-columnas)
+  select(-columnasSeparadasPorComas)
 
 # Agrupar
 df %>% 
-  group_by(FECHA)
+  group_by(columnasSeparadasPorComas)
 
 # Agregar variable
 df <- df %>% 
-  mutate(Doble=INDICE*2)
+  mutate(nombre = *columna * 2 - columna)
   
 ## Caso especial: variable case when
 df <- df %>% 
-  mutate(Caso_cuando = case_when(GRUPO == "Privado_Registrado"   ~ INDICE*2,
+  mutate(nombre = case_when(GRUPO == "Privado_Registrado"   ~ INDICE*2,
                                  GRUPO == "Público"              ~ INDICE*3))
 
 # Aplanar
 df %>% 
-  summarise(Indprom = mean(INDICE))
+  summarise(nombre = mean(columna))
   
 # Joinear
 df_join <- df %>% 
-  left_join(.,Ponderadores, by = "GRUPO")
+  left_join(.,df2, by = columnaComún)
   
 # Ejemplo de combinadas
 df %>% 
