@@ -36,6 +36,10 @@ df %>%
 df <- df %>% 
   mutate(nombre = * columna * 2 - columna)
   
+## Caso especial: variable percentil
+df = df %>% 
+     mutate(quantile = ntile(columna, 10))
+  
 ## Caso especial: variable case when
 df <- df %>% 
   mutate(nombre = case_when(GRUPO == "Privado_Registrado" ~ INDICE * 2,
