@@ -38,8 +38,8 @@ df <- df %>%
   
 ## Caso especial: variable case when
 df <- df %>% 
-  mutate(nombre = case_when(GRUPO == "Privado_Registrado"   ~ INDICE*2,
-                                 GRUPO == "Público"              ~ INDICE*3))
+  mutate(nombre = case_when(GRUPO == "Privado_Registrado"   ~ INDICE * 2,
+                                 GRUPO == "Público"         ~ INDICE * 3))
 
 # Aplanar
 df %>% 
