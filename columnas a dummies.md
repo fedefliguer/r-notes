@@ -40,8 +40,7 @@ for(columna in campos_categoricos)
     valor <- as.character(agrupado[n, ..columna][[1]])                          # Defino el nombre del campo que buscará luego la función
     if(valor != '' & !is.na(valor))                                             # Únicamente cuando el campo no es nulo ni vacío
     {
-                                                                                # Condición para que queden estructuradas todas igual (puede no ser necesaria)
-      if(grepl('^cd', columna)) 
+      if(grepl('^cd', columna))                                                 # Condición para que queden estructuradas todas igual (puede no ser necesaria) 
       {
         tx_columna_dummy <- c( paste0(sub('^cd', 'fl', tolower(columna)), '', gsub(" ", "", valor)))
       } else
