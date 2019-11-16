@@ -33,14 +33,11 @@ f_flag = function(valor_columna) return( ifelse( valor_columna %in% valor, 1, 0 
 ``` r
 for(columna in campos_categoricos)
 {
-  agrupado <- setorder(df_dummies[, .N, by = eval((columna))])                  # Busco los campos (las opciones de respuesta)
-                                                                                  con su frecuencia
-  agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ]                   # Me quedo únicamente con campos que tengan más                       
-                                                                                  del 0.5% de la frecuencia
+  agrupado <- setorder(df_dummies[, .N, by = eval((columna))])                  # Busco los campos (las opciones de respuesta)                                                                                   con su frecuencia
+  agrupado <- agrupado[ N > nu_cantidad_total_muestra / 200 ]                   # Me quedo únicamente con campos que tengan más   del 0.5% de la frecuencia
   for(n in 1:nrow(agrupado))                                                    # Por cada campo
   {
-    valor <- as.character(agrupado[n, ..columna][[1]])                          # Defino el nombre del campo que buscará luego 
-                                                                                  la función
+    valor <- as.character(agrupado[n, ..columna][[1]])                          # Defino el nombre del campo que buscará luego la función
     if(valor != '' & !is.na(valor))                                             # Únicamente cuando el campo no es nulo ni vacío
     {
       # Condición para que queden estructuradas todas igual (puede no ser necesaria)
@@ -51,8 +48,7 @@ for(columna in campos_categoricos)
       {
         tx_columna_dummy <- c(paste0('fl_', tolower(columna), '_', gsub(" ", "", valor)))
       }
-      df_dummies[, (tx_columna_dummy) := lapply(.SD, f_flag), .SDcols = columna] # Por cada campo pido que se ejecute la función 
-                                                                                   que binariza
+      df_dummies[, (tx_columna_dummy) := lapply(.SD, f_flag), .SDcols = columna] # Por cada campo pido que se ejecute la función que binariza
     }
   }
   df_dummies[, (columna) := NULL]
