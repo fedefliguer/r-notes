@@ -1,17 +1,25 @@
+``` r
 library(tidyverse)
 library(dplyr)
+```
 
 # Resumen de la estructura de la tabla
+``` r
 glimpse(df)
+```
 
 # Filtrar por filas
 ## Con AND
+``` r
 df %>% 
   filter(columna1>101 , columna2 == "Privado_Registrado")
+```
 
 ## Con OR
+``` r
 df %>% 
   filter(columna1>101 | columna2 == "Privado_Registrado")
+```
 
 # Renombrar columna
 df %>% 
