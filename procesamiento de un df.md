@@ -9,7 +9,7 @@ glimpse(df)
 ```
 
 # Filtrar por filas
-## Con AND
+### Con AND
 ``` r
 df %>% 
   filter(columna1>101 , columna2 == "Privado_Registrado")
