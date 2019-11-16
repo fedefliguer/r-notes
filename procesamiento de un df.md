@@ -111,8 +111,8 @@ iris_vertical <- iris %>% gather(key   = newColumnKey,      # Nueva columna clav
 ### A partir de las filas de una columna, construir varias columnas que achiquen el largo del dataset
 ``` r  
 iris_horizontal <- iris_vertical %>%
-  spread(key   = Variables,                     # Variable que quiero que se me 'desdoble' en columnas
-         value = Valores)                       # Valores con que se llenan las celdas
+  spread(key   = columnaClave,                     # Columna que quiero que se me 'desdoble' en varias
+         value = columnaValores)                   # Valores con que se llenan las celdas
 ```
  
 ### Tratamiento de los DATE
