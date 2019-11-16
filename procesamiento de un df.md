@@ -92,8 +92,8 @@ df %>%
 
 ``` r  
 iris <- iris %>% 
-  mutate(id = 1:nrow(.)) %>%  #le agrego un ID
-  select(id, everything()) # lo acomodo para que el id este primero. 
+  mutate(id = 1:nrow(.)) %>%                 # Le agrego un ID
+  select(id, everything())                   # Lo acomodo para que el id este primero. 
 ```
 
 ## Filas y columnas
@@ -111,8 +111,8 @@ iris_vertical <- iris %>% gather(key   = newColumnKey,      # Nueva columna clav
 ### A partir de las filas de una columna, construir varias columnas que achiquen el largo del dataset
 ``` r  
 iris_horizontal <- iris_vertical %>%
-  spread(key   = Variables,                                 # Variable que quiero que se me 'desdoble' en columnas
-         value = Valores)                                   # Valores con que se llenan las celdas
+  spread(key   = Variables,                     # Variable que quiero que se me 'desdoble' en columnas
+         value = Valores)                       # Valores con que se llenan las celdas
 ```
  
 ### Tratamiento de los DATE
@@ -139,6 +139,6 @@ bases_df <- bases_df %>% unnest()
 ``` r  
 bases_df = bases_df %>% 
               group_by(REGION) %>% 
-              nest()                                          # Con esto cada valor pasa de ser un df a ser un vector
+              nest()                            # Con esto cada valor pasa de ser un df a ser un vector
 ```
 
