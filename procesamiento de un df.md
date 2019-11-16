@@ -3,102 +3,142 @@ library(tidyverse)
 library(dplyr)
 ```
 
-# Resumen de la estructura de la tabla
+## Resumen de la estructura de la tabla
 ``` r
 glimpse(df)
 ```
 
-# Filtrar por filas
+## Filtrar por filas
 ### Con AND
 ``` r
 df %>% 
   filter(columna1>101 , columna2 == "Privado_Registrado")
 ```
 
-## Con OR
+### Con OR
 ``` r
 df %>% 
   filter(columna1>101 | columna2 == "Privado_Registrado")
 ```
 
-# Renombrar columna
+## Renombrar columna
+``` r
 df %>% 
   rename(nombreNuevo = columna)
-  
-# Ordenar
+```
+ 
+## Ordenar
+``` r
 df %>% 
   arrange(columnasSeparadasPorComas, asc|desc)
+```
   
-# Seleccionar por la positiva
+## Seleccionar 
+### Por la positiva
+``` r
 df %>% 
   select(columnasSeparadasPorComas)
-  
+```
+
+### Por la negativa
+``` r  
 df %>% 
   select(-columnasSeparadasPorComas)
+```
 
-# Agrupar
+## Agrupar
+``` r  
 df %>% 
   group_by(columnasSeparadasPorComas)
+```
 
-# Agregar variable
+## Agregar variable
+``` r  
 df <- df %>% 
   mutate(nombre = * columna * 2 - columna)
+```
   
-## Caso especial: variable percentil
+### Caso especial: variable percentil
+``` r  
 df = df %>% 
      mutate(quantile = ntile(columna, 10))
+```
   
-## Caso especial: variable case when
+### Caso especial: variable case when
+``` r  
 df <- df %>% 
   mutate(nombre = case_when(GRUPO == "Privado_Registrado" ~ INDICE * 2,
                             GRUPO == "Público" ~ INDICE * 3))
+```
 
-# Aplanar
+### Aplanar
+``` r  
 df %>% 
   summarise(nombre = mean(columna))
+```
   
-# Joinear
+## Joinear
+``` r  
 df_join <- df %>% 
   left_join(.,df2, by = columnaComún)
+```
   
-# Ejemplo de combinadas
+## Ejemplos de combinadas
+``` r  
 df %>% 
   group_by(FECHA) %>%
   summarise(Indprom = mean(INDICE))
-  
+```
+
+``` r  
 iris <- iris %>% 
   mutate(id = 1:nrow(.)) %>%  #le agrego un ID
   select(id, everything()) # lo acomodo para que el id este primero. 
+```
 
-# Filas y columnas
+## Filas y columnas
+``` r  
 library(tidyr)
-## A partir de varias columnas, construir una columna que agrande el largo del dataset 
-iris_vertical <- iris %>% gather(., # el . llama a lo que esta atras del %>% 
-                                 key   = Variables,
-                                 value = Valores,
-                                 2:5) #le indico que columnas juntar
+```
 
-## A partir de las filas de una columna, construir varias columnas que achiquen el largo del dataset
+### A partir de varias columnas, construir una columna clave-valor que agrande el largo del dataset 
+``` r  
+iris_vertical <- iris %>% gather(key   = newColumnKey,      # Nueva columna clave
+                                 value = newColumnValue     # Nueva columna valor
+                                 2:5) # Que columnas juntar
+```
+
+### A partir de las filas de una columna, construir varias columnas que achiquen el largo del dataset
+``` r  
 iris_horizontal <- iris_vertical %>%
-  spread(. ,
-         key   = Variables, #la llave es la variable que va a dar los nombres de columna
-         value = Valores) #los valores con que se llenan las celdas
+  spread(key   = Variables,                                 # Variable que quiero que se me 'desdoble' en columnas
+         value = Valores)                                   # Valores con que se llenan las celdas
+```
  
-# Tratamiento de los DATE
+### Tratamiento de los DATE
+``` r  
 library(lubridate)
+```
+
+``` r  
 fecha2 <- parse_date_time(fecha2, orders = 'my')
 year(fecha)
 month(fecha)
 day(fecha)
 hour(fecha)
 fecha + days(2)
+```
 
-# Tratamiento de las anidadas (una columna contiene DFs)
-## Si todas tienen la misma cantidad de columnas
+### Tratamiento de las anidadas (una columna contiene DFs)
+#### Si todas tienen la misma cantidad de columnas
+``` r  
 bases_df <- bases_df %>% unnest()
+```
 
-## Si no todas tienen la misma cantidad de columnas
+#### Si no todas tienen la misma cantidad de columnas
+``` r  
 bases_df = bases_df %>% 
               group_by(REGION) %>% 
-              nest() # Con esto cada valor pasa de ser un df a ser un vector
+              nest()                                          # Con esto cada valor pasa de ser un df a ser un vector
+```
 
