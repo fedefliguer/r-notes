@@ -52,6 +52,13 @@ df %>%
   group_by(columnasSeparadasPorComas)
 ```
 
+### Agrupar y aplanar
+``` r  
+df %>% 
+  group_by(columnasSeparadasPorComas) %>% 
+  summarise(nombre = mean(columna))
+```
+
 ## Agregar variable
 ``` r  
 df <- df %>% 
@@ -69,12 +76,6 @@ df = df %>%
 df <- df %>% 
   mutate(nombre = case_when(GRUPO == "Privado_Registrado" ~ INDICE * 2,
                             GRUPO == "Público" ~ INDICE * 3))
-```
-
-### Aplanar
-``` r  
-df %>% 
-  summarise(nombre = mean(columna))
 ```
   
 ## Joinear
