@@ -1,3 +1,10 @@
+``` r
+library(tidyverse)
+library(plotly)
+library(modelr)
+options(na.action = na.warn)
+```
+
 ## Generar un scatter plot de dos variables 
 ``` r
 ggplot(df, aes(x, y)) + 
