@@ -1,7 +1,3 @@
-``` r
-library(data.table)
-```
-
 ## Teorema Frisch–Waugh–Lovell
 ``` r
 coef(lm(y1 ~ x1 + x2))[2] = coef[ lm(residuals(lm(y1 ~ x2)) ~ -1 + residuals(lm(x1 ~ x2))) ]
