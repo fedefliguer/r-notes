@@ -8,6 +8,12 @@ library(dplyr)
 glimpse(df)
 ```
 
+### Manera más prolija de verlo, incluyendo ceros y NAs de cada tipo
+``` r
+library(funModeling)
+status(titanic)
+```
+
 ## Filtrar por filas
 ### Con AND
 ``` r
