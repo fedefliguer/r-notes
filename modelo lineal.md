@@ -2,6 +2,7 @@
 library(tidyverse)
 library(plotly)
 library(modelr)
+library(robustbase)
 options(na.action = na.warn)
 ```
 
@@ -104,3 +105,8 @@ df <- df %>%
   add_residuals(linealModel)
 ```
 La media de los residuos debería ser 0, y el scatter plot de ellos debería no tener una estructura para verificar homocedasticidad.
+
+### Modelo robusto ante una posible irregularidad de los residuos (no están centrados en el cero o son heterocedásticos)
+``` r
+robustModel <- lmRob(y~x1+x2+x3,data = df)
+```
