@@ -106,8 +106,6 @@ by_country %>%
 
 ```
 
-
-
 ### Generación de predicciones
 ``` r
 grid <- df %>% 
