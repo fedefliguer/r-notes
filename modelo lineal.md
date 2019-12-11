@@ -79,11 +79,34 @@ optim(c(4,2), measure_distance, data = df)              # (4,2) es el punto de p
 linealModel <- lm(y ~ x, data = df)
 ```
 
-### Teorema Frisch–Waugh–Lovell
+#### Teorema Frisch–Waugh–Lovell
 ``` r
 coef(lm(y1 ~ x1 + x2))[2] = coef[ lm(residuals(lm(y1 ~ x2)) ~ -1 + residuals(lm(x1 ~ x2))) ]
 ```
 El beta1 de una regresión múltiple es igual al beta de regresar: los residuos de la regresión de la variable explicada sobre beta2, sobre los residuos de la X1 sobre beta2. Siendo beta2 la/s variable/s que, juntas o separadas, consolidan todo el resto de información que X1 no contiene. Esto es una manera de reducir cualquier regresión a una doble
+
+#### Función que hace múltiples modelos lineales
+
+Partimos de, por ejemplo, un dataset que tiene observaciones por países por año. Primero generamos un subdataset donde cada observación es un país, unnesteado con el vector de años y valores.
+``` r
+by_country <- gapminder %>% 
+  group_by(country, continent) %>% 
+  nest()
+```
+
+Generamos el modelo que realiza modelos lineales en forma sistemática, apuntando a correr uno por país
+``` r
+country_model <- function(df) {
+  lm(lifeExp ~ year, data = df)
+}
+
+by_country %>% 
+  mutate(glnc = map(model, glance)) %>% 
+  unnest(glnc)
+
+```
+
+
 
 ### Generación de predicciones
 ``` r
