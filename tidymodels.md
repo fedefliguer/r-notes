@@ -39,6 +39,9 @@ iris_rf <-  rand_forest(trees = 100, mode = "classification") %>%              #
 ```
 
 Podrían ser otros modelos:
+
 ⋅⋅⋅classification: boost_tree(), decision_tree(), logistic_reg(), mars(), mlp(), multinom_reg(), nearest_neighbor(), null_model(), rand_forest(), svm_poly(), svm_rbf()
+
 ⋅⋅⋅regression: boost_tree(), decision_tree(), linear_reg(), mars(), mlp(), nearest_neighbor(), null_model(), rand_forest(), surv_reg(), svm_poly(), svm_rbf()
+
 Cada uno con sus [parámetros](https://tidymodels.github.io/parsnip/articles/articles/Models.html).
