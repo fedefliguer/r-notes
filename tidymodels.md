@@ -33,8 +33,9 @@ Ahora la sí esa receta fue aplicada.
 ## Entrenamiento
 ### Selección del modelo y ajuste
 ``` r
+library(parsnip)
 iris_rf <-  rand_forest(trees = 100, mode = "classification") %>%              # Parámetro de seteo de qué modelo usar con sus atributos
-  set_engine("randomForest") %>%                                               # Parámetro de qué librería usar. El paquete debe estar instalado!
+  set_engine("randomForest") %>%                                               # Parámetro de qué librería usar. El paquete (en este caso randomForest) debe estar instalado!
   fit(Species ~ ., data = iris_training)                                       # Ajuste de variable dependiente y datos
 ```
 
@@ -45,3 +46,40 @@ Podrían ser otros modelos:
 * regression: boost_tree(), decision_tree(), linear_reg(), mars(), mlp(), nearest_neighbor(), null_model(), rand_forest(), surv_reg(), svm_poly(), svm_rbf()
 
 Cada uno con sus [parámetros](https://tidymodels.github.io/parsnip/articles/articles/Models.html).
+
+### Predicciones
+``` r
+iris_ranger %>%
+  predict(iris_testing) %>%
+  bind_cols(iris_testing)  
+```
+
+## Entrenamiento
+### Selección del modelo y ajuste
+``` r
+library(parsnip)
+iris_rf <-  rand_forest(trees = 100, mode = "classification") %>%              # Parámetro de seteo de qué modelo usar con sus atributos
+  set_engine("randomForest") %>%                                               # Parámetro de qué librería usar. El paquete (en este caso randomForest) debe estar instalado!
+  fit(Species ~ ., data = iris_training)                                       # Ajuste de variable dependiente y datos
+```
+
+## Validación
+``` r
+library(yardstick)
+
+iris_ranger %>%
+  predict(iris_testing) %>%
+  bind_cols(iris_testing) %>%
+  metrics(truth = Species, estimate = .pred_class)                            # Resumen del poder de clasificación del modelo
+  
+iris_ranger %>%
+  predict(iris_testing, type = "prob")                                        # Resumen del poder de clasificación variable por variable
+```
+### Curvas ROC
+``` r
+library(ggplot2)
+iris_probs%>%
+  roc_curve(Species, .pred_setosa:.pred_virginica) %>%
+  autoplot()+
+  labs(title = 'Curvas ROC')                                                 
+```
