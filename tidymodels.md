@@ -29,3 +29,16 @@ iris_testing <- iris_recipe %>%
   bake(testing(iris_split))                         # Para aplicarlo sobre otros datos
 ```
 Ahora la sí esa receta fue aplicada.
+
+## Entrenamiento
+### Selección del modelo y ajuste
+``` r
+iris_rf <-  rand_forest(trees = 100, mode = "classification") %>%              # Parámetro de seteo de qué modelo usar con sus atributos
+  set_engine("randomForest") %>%                                               # Parámetro de qué librería usar
+  fit(Species ~ ., data = iris_training)                                       # Ajuste de variable dependiente y datos
+```
+
+Podrían ser otros modelos:
+⋅⋅* classification: boost_tree(), decision_tree(), logistic_reg(), mars(), mlp(), multinom_reg(), nearest_neighbor(), null_model(), rand_forest(), svm_poly(), svm_rbf()
+⋅⋅* regression: boost_tree(), decision_tree(), linear_reg(), mars(), mlp(), nearest_neighbor(), null_model(), rand_forest(), surv_reg(), svm_poly(), svm_rbf()
+Cada uno con sus [parámetros](https://tidymodels.github.io/parsnip/articles/articles/Models.html)
