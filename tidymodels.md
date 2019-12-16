@@ -64,7 +64,7 @@ iris_ranger %>%
   metrics(truth = Species, estimate = .pred_class)                            # Resumen del poder de clasificación del modelo
   
 iris_ranger %>%
-  predict(iris_testing, type = "prob")                                        # Resumen del poder de clasificación variable por variable
+  predict(iris_testing, type = "prob")                                        # Resumen del poder de clasificación observación por observación
 ```
 ### Curvas ROC
 ``` r
