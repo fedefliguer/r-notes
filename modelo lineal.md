@@ -3,7 +3,8 @@ library(tidyverse)
 library(plotly)
 library(modelr)
 library(robustbase)
-options(na.action = na.warn)
+library(broom)
+library(plotly)
 ```
 
 ## Generar un scatter plot de dos variables 
