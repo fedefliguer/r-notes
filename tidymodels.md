@@ -54,15 +54,6 @@ iris_ranger %>%
   bind_cols(iris_testing)  
 ```
 
-## Entrenamiento
-### Selección del modelo y ajuste
-``` r
-library(parsnip)
-iris_rf <-  rand_forest(trees = 100, mode = "classification") %>%              # Parámetro de seteo de qué modelo usar con sus atributos
-  set_engine("randomForest") %>%                                               # Parámetro de qué librería usar. El paquete (en este caso randomForest) debe estar instalado!
-  fit(Species ~ ., data = iris_training)                                       # Ajuste de variable dependiente y datos
-```
-
 ## Validación
 ``` r
 library(yardstick)
