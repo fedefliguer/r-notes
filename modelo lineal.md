@@ -87,10 +87,10 @@ El beta1 de una regresión múltiple es igual al beta de regresar: los residuos 
 
 #### Función que hace múltiples modelos lineales
 
-Partimos de, por ejemplo, un dataset que tiene observaciones por países por año. Primero generamos un subdataset donde cada observación es un país, unnesteado con el vector de años y valores.
+Partimos de, por ejemplo, un dataset que tiene observaciones de PBI por países por año. Nosotros queremos hacer un modelo por país, que relacione año con PBI. Primero generamos un subdataset donde cada observación es un país, unnesteado con el vector de años y valores.
 ``` r
 by_country <- gapminder %>% 
-  group_by(country, continent) %>% 
+  group_by(country) %>% 
   nest()
 ```
 
@@ -100,10 +100,12 @@ country_model <- function(df) {
   lm(lifeExp ~ year, data = df)
 }
 
-by_country %>% 
-  mutate(glnc = map(model, glance)) %>% 
-  unnest(glnc)
+by_club <- by_club %>% 
+  mutate(model = map(data, country_model))
 
+by_club %>% 
+  mutate(tdy = map(model, tidy)) %>% 
+  unnest(tdy)
 ```
 
 ### Generación de predicciones
