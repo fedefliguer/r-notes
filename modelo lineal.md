@@ -74,7 +74,7 @@ ggplot(models, aes(a1, a2)) +
 optim(c(4,2), measure_distance, data = df)              # (4,2) es el punto de partida para el método
 ```
 
-## Búsqueda del modelo lineal de regresión
+## Regresión Lineal
 ### Modelo lineal
 ``` r
 linealModel <- lm(y ~ x, data = df)
@@ -133,4 +133,109 @@ La media de los residuos debería ser 0, y el scatter plot de ellos debería no 
 ### Modelo robusto ante una posible irregularidad de los residuos (no están centrados en el cero o son heterocedásticos)
 ``` r
 robustModel <- lmRob(y~x1+x2+x3,data = df)
+```
+
+## Generalización (GLM)
+### Regresión logística
+
+Partimos de un dataset con dos probabilidades (Default 1, No default 0) y tres variables explicativas, en primer lugar buscamos armar modelos binomiales para cada variable y para el conjunto.
+
+``` r
+logit_formulas <- formulas(.response = ~default, # único lado derecho de las formulas.
+                         bal= ~balance, 
+                         stud= ~student,  
+                         inc= ~income,  
+                         bal_stud=~balance+student, 
+                         bal_inc=~balance+income, 
+                         stud_inc=~student+income,  
+                         full= ~balance + income + student  
+                         )
+```
+
+Y luego, genero la base con el modelo y sus resultados
+
+``` r
+models <- data_frame(logit_formulas) %>%                                            # df a partir del objeto formulas
+  mutate(models = names(logit_formulas),                                            # Columna con los nombres de las formulas
+         expression = paste(logit_formulas),                                        # Columna con las expresiones de las formulas
+         mod = map(logit_formulas, ~glm(.,family = 'binomial', data = default)))    # podría agregarse como parámetro antes de data ' weights = wt' que significa que hay una columna adicional por la que se ponderan los pesos. Esto es útil para muestras muy desbalanceadas.
+         
+models %>% 
+  mutate(tidy = map(mod,tidy)) %>% 
+  unnest(tidy, .drop = TRUE) %>% 
+  mutate(estimate=round(estimate,5),
+         p.value=round(p.value,4))         
+```
+
+Evalúo los modelos dentro de los datos usados (vía deviance):
+
+``` r
+models <- models %>% 
+  mutate(glance = map(mod,glance))
+
+models %>% 
+  unnest(glance, .drop = TRUE) %>%
+  mutate(perc_explained_dev = 1-deviance/null.deviance) %>% 
+  select(-c(models, df.null, AIC, BIC)) %>% 
+  arrange(deviance)
+```
+
+####  Capacidad de predicción
+
+Agrego las predicciones
+
+``` r
+models <- models %>% 
+  mutate(pred= map(mod,augment, type.predict = "response"))
+```
+
+Genero el gráfico de violín
+
+``` r
+prediction_full <- models %>% 
+  unnest(pred, .drop=TRUE)
+
+prediction_bad <- models %>% 
+  unnest(pred, .drop=TRUE)
+
+violin_full=ggplot(prediction_full, aes(x=default, y=.fitted, group=default,fill=factor(default))) + 
+  geom_violin() +
+  theme_bw() +
+  guides(fill=FALSE) +
+  labs(title='Violin plot', subtitle='Modelo completo', y='Predicted probability')
+
+violin_bad=ggplot(prediction_bad, aes(x=default, y=.fitted, group=default, fill=factor(default))) + 
+  geom_violin() + 
+  theme_bw() +
+  guides(fill=FALSE) +
+  labs(title='Violin plot', subtitle='Modelo malo', y='Predicted probability')
+```
+
+Armo las curvas ROC
+
+``` r
+roc_full <- roc(response=prediction_full$default, predictor=prediction_full$.fitted)
+roc_bad <- roc(response=prediction_bad$default, predictor=prediction_bad$.fitted)
+ggroc(list(full=roc_full, bad=roc_bad), size=1) + geom_abline(slope = 1, intercept = 1, linetype='dashed') + theme_bw() + labs(title='Curvas ROC', color='Modelo')
+```
+
+####  Punto de corte
+
+``` r
+cutoffs = seq(0.01,0.95,0.01)
+logit_pred = map_dfr(cutoffs, prediction_metrics)
+ggplot(logit_pred, aes(cutoff,estimate, group=term, color=term)) + geom_line(size=1) +
+  theme_bw() +
+  labs(title= 'Accuracy, Sensitivity, Specificity, Recall y Precision', subtitle= 'Modelo completo', color="")
+```
+
+Elijo el punto de corte 0.25 y evalúo el modelo
+
+``` r
+sel_cutoff = 0.25
+full_model <- glm(logit_formulas$full, family = 'binomial', data = default)
+table= augment(x=full_model, newdata=test, type.predict='response') 
+table=table %>% mutate(predicted_class=if_else(.fitted>0.25, 1, 0) %>% as.factor(),
+           default= factor(default))
+confusionMatrix(table(table$default, table$predicted_class), positive = "1")
 ```
