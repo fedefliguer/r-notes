@@ -189,28 +189,6 @@ models <- models %>%
   mutate(pred= map(mod,augment, type.predict = "response"))
 ```
 
-Genero el gráfico de violín
-
-``` r
-prediction_full <- models %>% 
-  unnest(pred, .drop=TRUE)
-
-prediction_bad <- models %>% 
-  unnest(pred, .drop=TRUE)
-
-violin_full=ggplot(prediction_full, aes(x=default, y=.fitted, group=default,fill=factor(default))) + 
-  geom_violin() +
-  theme_bw() +
-  guides(fill=FALSE) +
-  labs(title='Violin plot', subtitle='Modelo completo', y='Predicted probability')
-
-violin_bad=ggplot(prediction_bad, aes(x=default, y=.fitted, group=default, fill=factor(default))) + 
-  geom_violin() + 
-  theme_bw() +
-  guides(fill=FALSE) +
-  labs(title='Violin plot', subtitle='Modelo malo', y='Predicted probability')
-```
-
 Armo las curvas ROC
 
 ``` r
