@@ -5,6 +5,7 @@ library(modelr)
 library(robustbase)
 library(broom)
 library(plotly)
+library(glmnet)
 ```
 
 # Exploración
@@ -107,13 +108,13 @@ La media de los residuos debería ser 0, y el scatter plot de ellos debería no 
 robustModel <- lmRob(y~x1+x2+x3,data = df)
 ```
 
-#### Teorema Frisch–Waugh–Lovell
+### Teorema Frisch–Waugh–Lovell
 ``` r
 coef(lm(y1 ~ x1 + x2))[2] = coef[ lm(residuals(lm(y1 ~ x2)) ~ -1 + residuals(lm(x1 ~ x2))) ]
 ```
 El beta1 de una regresión múltiple es igual al beta de regresar: los residuos de la regresión de la variable explicada sobre beta2, sobre los residuos de la X1 sobre beta2. Siendo beta2 la/s variable/s que, juntas o separadas, consolidan todo el resto de información que X1 no contiene. Esto es una manera de reducir cualquier regresión a una doble
 
-#### Función que hace múltiples modelos lineales
+### Función que hace múltiples modelos lineales
 
 Partimos de, por ejemplo, un dataset que tiene observaciones de PBI por países por año. Nosotros queremos hacer un modelo por país, que relacione año con PBI. Primero generamos un subdataset donde cada observación es un país, unnesteado con el vector de años y valores.
 ``` r
@@ -135,6 +136,47 @@ by_club %>%
   mutate(tdy = map(model, tidy)) %>% 
   unnest(tdy)
 ```
+
+## Regularización
+
+La alta cantidad de variables y la existencia de una alta correlación entre varias de ellas ocasionas que los coeficientes estimados tengan alta varianza y que muchos de ellos no sean significativos en términos estadísticos. Las técnicas de regularización pueden ayudarnos a mejorar esta situación.
+
+### Lasso
+
+``` r
+nba_salary = nba$salary
+nba_mtx = model.matrix(salary~., data = nba)                                  # Es mejor en estos casos crear dos objetos, uno para las variables explicativas y otro para la explicada.
+
+lasso.mod=glmnet(x=nba_mtx,                                                   # Matriz de regresores
+                 y=nba_salary,                                                # Vector de la variable a predecir
+                 alpha=1,                                                     # Indicador del tipo de regularizacion
+                 standardize = F)                                             # No estandarizo
+
+lasso_coef = lasso.mod %>% tidy()
+```
+
+La salida será un conjunto de coeficientes para modelso ordenados por Lambda, lo que significa que cada modelo usa un lambda distinto: el de mayor lambda seguramente solo incluya el intercepto, y luego vaya incluyendo cada vez otras variables. Es probable que las variables que “sobreviven” para mayores valores de lambda sean las que están medidas con una escala mayor, por lo que en ese caso es conveniente estandarizar.
+
+#### Valor óptimo de Lambda
+
+Para hallar esto en general se usa cross-validation
+
+``` r
+lasso_cv=cv.glmnet(x=nba_mtx,y=nba_salary,alpha=1, standardize = T)
+lasso_lambda_opt = lasso_cv$lambda.min                                          # Devuelve el lambda para el cual el MSE (error) es minimo
+
+lasso_opt = glmnet(x=nba_mtx,                                                   
+                 y=nba_salary, #Vector de la variable a predecir
+                 alpha=1, 
+                 standardize = TRUE,  
+                 lambda = lasso_lambda_opt)
+```
+
+Se ve cuáles variables sobrevivieron.
+
+### Ridge y Elastic Net
+
+Funcionan igual que Lasso, pero respectivamente con alpha = 0 y alpha = 0.5. Ridge reduce la varianza sin excluir predictores, Elastic Net es un promedio entre las dos formas de regularización.
 
 ## Generalización (GLM)
 ### Regresión logística
