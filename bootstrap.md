@@ -59,4 +59,4 @@ ggplot(parametros, aes(estimate,y=model, fill = model))+
 ```
 ![Conclusión](https://www.imageupload.net/upload-image/2019/12/09/test.png)
 
-Como la distribución es tan diferente, el método ayudó a visualizar el problema de generar un modelo lineal: la inconstancia en los parámetros, cosa que en los robustos es mucho más fija.
+Como la distribución es tan diferente, el método ayudó a visualizar el problema de generar un modelo lineal: la variabilidad en los parámetros, cosa que en los robustos es mucho menor.
