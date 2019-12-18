@@ -7,6 +7,7 @@ library(broom)
 library(plotly)
 ```
 
+# Exploración
 ## Generar un scatter plot de dos variables 
 ``` r
 ggplot(df, aes(x, y)) + 
@@ -74,10 +75,36 @@ ggplot(models, aes(a1, a2)) +
 optim(c(4,2), measure_distance, data = df)              # (4,2) es el punto de partida para el método
 ```
 
-## Regresión Lineal
-### Modelo lineal
+# Regresión Lineal
+## Modelo lineal
 ``` r
 linealModel <- lm(y ~ x, data = df)
+```
+
+### Generación de predicciones
+``` r
+grid <- df %>% 
+  data_grid(x) %>%                                      # data_grid(x) genera una columna x numerada
+  add_predictions(linealModel) 
+```
+
+### Recta de MCO
+``` r
+ggplot(df, aes(x)) +
+  geom_point(aes(y = y)) +
+  geom_line(aes(y = pred), data = grid, colour = "red", size = 1)
+```
+
+### Incorporo residuos
+``` r
+df <- df %>% 
+  add_residuals(linealModel)
+```
+La media de los residuos debería ser 0, y el scatter plot de ellos debería no tener una estructura para verificar homocedasticidad.
+
+### Modelo robusto ante una posible irregularidad de los residuos (no están centrados en el cero o son heterocedásticos)
+``` r
+robustModel <- lmRob(y~x1+x2+x3,data = df)
 ```
 
 #### Teorema Frisch–Waugh–Lovell
@@ -107,32 +134,6 @@ by_club <- by_club %>%
 by_club %>% 
   mutate(tdy = map(model, tidy)) %>% 
   unnest(tdy)
-```
-
-### Generación de predicciones
-``` r
-grid <- df %>% 
-  data_grid(x) %>%                                      # data_grid(x) genera una columna x numerada
-  add_predictions(linealModel) 
-```
-
-### Recta de MCO
-``` r
-ggplot(df, aes(x)) +
-  geom_point(aes(y = y)) +
-  geom_line(aes(y = pred), data = grid, colour = "red", size = 1)
-```
-
-### Incorporo residuos
-``` r
-df <- df %>% 
-  add_residuals(linealModel)
-```
-La media de los residuos debería ser 0, y el scatter plot de ellos debería no tener una estructura para verificar homocedasticidad.
-
-### Modelo robusto ante una posible irregularidad de los residuos (no están centrados en el cero o son heterocedásticos)
-``` r
-robustModel <- lmRob(y~x1+x2+x3,data = df)
 ```
 
 ## Generalización (GLM)
