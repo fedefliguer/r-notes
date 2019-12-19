@@ -82,6 +82,13 @@ optim(c(4,2), measure_distance, data = df)              # (4,2) es el punto de p
 linealModel <- lm(y ~ x, data = df)
 ```
 
+![Interpretación](https://imgbbb.com/images/2019/12/19/Sin-titulo.png)
+
+Conceptos importantes de la interpretación:
+1. Forma matricial de interpretar el estimador de mínimos cuadrados ordinarios.
+2. Elementos de los que depende la varianza de ese estimador: la varianza del error (σ, una medida de la ignorancia), la cantidad de observaciones (menos es más varianza), la multicolinealidad (más es más varianza), y la variabilidad de Xj (menos es más varianza).
+3. Las variables también interactúan entre sí, por lo tanto, la razón que nos justificaría omitir una variable (X2, por ejemplo) no es el hecho de que no esté relacionada con la variable explicada (β2 = 0) sino más bien que, de tener relación con la variable explicada, la relación con la otra explicativa sea 0. En ese caso, el modelo que solo incluye X1 no está sesgado.
+
 ### Generación de predicciones
 ``` r
 grid <- df %>% 
