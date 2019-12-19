@@ -82,7 +82,9 @@ optim(c(4,2), measure_distance, data = df)              # (4,2) es el punto de p
 linealModel <- lm(y ~ x, data = df)
 ```
 
-![Interpretación](https://imgbbb.com/images/2019/12/19/Sin-titulo.png){:height="50%" width="50%"}
+<img src="https://raw.githubusercontent.com/fjf-arg/r-notes/master/images/basicEconometrics.png" width="100" height="100">
+
+![Interpretación](https://raw.githubusercontent.com/fjf-arg/r-notes/master/images/basicEconometrics.png){:height="50%" width="50%"}
 
 Conceptos importantes de la interpretación:
 1. Forma matricial de interpretar el estimador de mínimos cuadrados ordinarios.
