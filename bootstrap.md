@@ -3,9 +3,10 @@ library(tidyverse)
 library(rsample)
 library(GGally)
 library(robust)
-library(ggplot2)
-library(rsample)
 library(ggridges)
+library(ggthemes)
+library(magrittr)
+library(tidymodels)
 ```
 A partir de un df que es la muestra que nosotros observamos (de una población que no conocemos, como siempre) buscamos comprobar qué tanto ajusta el modelo, es decir qué tan bien funciona en repetidos casos. Para eso, nuestro data frame pasa a ser la base de una muestra que se toma múltiples veces con reposición.
 
@@ -21,7 +22,7 @@ muestras_bootstrapeadas %>%
   filter(id=="Bootstrap001") %$%
   splits[[1]][[1]]
 ```
-Acá se ve un split completo: una lista de muestras tomadas como filas del df que pueden repetirse.
+Acá se ve un split completo: una lista de muestras tomadas como filas del df que pueden repetirse. Cada split contiene un dataframe con la muestra bootstrapeada, y un vector con los números de fila originales.
 
 ## Funciones para comprobar el modelo
 ``` r
