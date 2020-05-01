@@ -22,7 +22,7 @@ outliers_min<-mean(data)-N*desvio
 
 # Outliers mediante Z-Score
 ``` r
-data$zscore<-(data$Road_55dB-mean(data$Road_55dB))/sd(data$Road_55dB)
+data$zscore<-(data$Road_55dB-mean(data$Road_55dB))/sd(data$Road_55dB) # Cuántas desviaciones estándar tiene una observación de la media muestral, asumiendo una distribución gaussiana.
 umbral<-2
 max(data$zscore)
 min(data$zscore)
@@ -31,7 +31,7 @@ min(data$zscore)
 # Outliers multivariados mediante LOF
 ``` r
 library(Rlof)
-data$score<-lof(data, k=3)
+data$score<-lof(data, k=3) # Método basado en densidad que utiliza la búsqueda de vecinos más cercanos
 umbral<-4
 data$outlier <- (data$score>umbral)
 ```
