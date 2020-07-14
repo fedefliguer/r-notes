@@ -3,7 +3,7 @@
 # Interfaz de usuario
 ui <- fluidPage(
   
-  # Títuo de la APP
+  # Título de la APP
   titlePanel("Clusters por variables duras - Drivers transaccionales"),
   
   sidebarLayout(
