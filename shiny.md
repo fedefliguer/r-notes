@@ -1,5 +1,5 @@
 # Paso 1: Creo la interfaz de usuario
-```{r}
+``` r
 # Interfaz de usuario
 ui <- fluidPage(
   
@@ -57,11 +57,11 @@ ui <- fluidPage(
 ```
 
 # Paso 2: Creo la función para graficar
-```{r}
+``` r
 server <- function(input, output) {
   output$distPlot <- renderPlot({
-    input$goButton
-    df <- df[sample(nrow(base), isolate(input$n) ), ]
+    input$goButton  # Se activará la parte isolada con el go button
+    df <- df[sample(nrow(base), isolate(input$n) ), ] # Isolate significa que cuando este input cambie, no se ejecutará automáticamente sino solo con el go button.
     columna_dummy <- function(df, columna) {
       df %>% 
         mutate_at(columna, ~paste(columna, eval(as.symbol(columna)), sep = "_")) %>% 
@@ -123,7 +123,7 @@ server <- function(input, output) {
 ```
 
 # Paso 3: Publico la app
-```{r}
+``` r
 # Creación de la App
 shinyApp(ui = ui, server = server)
 ```
