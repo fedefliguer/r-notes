@@ -1,5 +1,5 @@
 # Paso 1: Creo la interfaz de usuario
-```{r }
+```{r}
 # Interfaz de usuario
 ui <- fluidPage(
   
@@ -57,7 +57,7 @@ ui <- fluidPage(
 ```
 
 # Paso 2: Creo la función para graficar
-```{r }
+```{r}
 server <- function(input, output) {
   output$distPlot <- renderPlot({
     input$goButton
@@ -123,7 +123,7 @@ server <- function(input, output) {
 ```
 
 # Paso 3: Publico la app
-```{r }
+```{r}
 # Creación de la App
 shinyApp(ui = ui, server = server)
 ```
