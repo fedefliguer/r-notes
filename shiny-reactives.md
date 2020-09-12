@@ -83,7 +83,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 ## reactiveValues
-Al igual que reactive, cuando cambia algún input que contiene se va actualizando. Es una lista de valores, y debería ser utilizado en los casos en los que no aplique reactive. Se elige reactiveValues en dos casos, especialmente. En primer lugar (ejemplo 1) cuando tenemos una variable que es una especie de 'estado' en la que el input lo actualiza, y no cuando el input es un valor en sí mismo. En segundo lugar (ejemplo 2), se prefiere reactiveValues cuando una variable puede ser actualizada en muchos lugares distintos del código.
+Al igual que reactive, cuando cambia algún input que contiene se va actualizando. Es una lista de valores, y debería ser utilizado en los casos en los que no aplique reactive. Se elige reactiveValues en dos casos, especialmente. En primer lugar (ejemplo 1) cuando tenemos una variable que es una especie de 'estado' en la que el input lo actualiza, y no cuando el input es un valor en sí mismo. En segundo lugar (ejemplo 2), se prefiere reactiveValues cuando una variable puede ser actualizada en muchos lugares distintos del código. Se considera más parecido a la programación imperativa que a la reactiva, porque el código se ocupa de definir el valor de algo y no de esperar una acción a la que reaccionar.
 
 ### ejemplo 1
 ```{r}
@@ -143,4 +143,69 @@ server <- function(input, output, session) {
 shinyApp(ui = ui, server = server)
 ```
 
+## observe
+Una expresión observe se activa cada vez que cambia alguno de sus inputs. La principal diferencia con respecto a una expresión reactiva es que no genera un objeto, por lo que solo debe usarse para efectos secundarios (como modificar un objeto reactiveValues o activar una ventana emergente). observe no ignora los NULL, por lo que se activará incluso si los inputs son NULL. La forma de evitar que el observe reaccione a determinados inputs es aplicarles isolate().
+
+```{r}
+library(shiny)
+
+ui <- fluidPage(
+  headerPanel("Example reactive"),
+  
+  mainPanel(
+    
+    # action buttons
+    actionButton("button1","Button 1"),
+    actionButton("button2","Button 2")
+  )
+)
+
+server <- function(input, output) {
+  
+  # observe button 1 press.
+  observe({
+    input$button1
+    isolate(input$button2)
+    showModal(modalDialog(
+      title = "Button pressed",
+      "You pressed one of the buttons!"
+    ))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+## observeEvent
+Es igual al observe, pero se asume que todos los inputs, excepto los referidos al inicio del observeEvent, están isolate().
+
+```{r}
+library(shiny)
+
+ui <- fluidPage(
+  headerPanel("Example reactive"),
+  
+  mainPanel(
+    
+    # action buttons
+    actionButton("button1","Button 1"),
+    actionButton("button2","Button 2")
+  )
+)
+
+server <- function(input, output) {
+  
+  # observe button 1 press.
+  observeEvent(input$button1, {
+    # The observeEvent takes no dependency on button 2, even though we refer to the input in the following line.
+    input$button2  
+    showModal(modalDialog(
+      title = "Button pressed",
+      "You pressed one of the buttons!"
+    ))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
 
