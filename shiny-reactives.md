@@ -9,6 +9,7 @@ results <- data.frame(comando,crea_objeto,aguarda_cumplimiento, outputs)
 print.data.frame(results)
 ```
 
-```{r comment='', echo=FALSE, results='asis'}
- knitr::kable(mtcars[1:5,], caption = "A Knitr table.", floating.environment="sidewaystable")
-```
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
