@@ -11,4 +11,8 @@ print.data.frame(results)
 
 | comando       | crea un objeto | aguarda cumplimiento de algo | relación con outputs |
 | ------------- | -------------- | ---------------------------- | -------------------- |
-| Content Cell  | Content Cell   | Content Cell                 | Content Cell         |
+| reactive  | Content Cell   | Content Cell                 | Content Cell         |
+| eventReactive  | Content Cell   | Content Cell                 | Content Cell         |
+| reactiveValues  | Content Cell   | Content Cell                 | Content Cell         |
+| observe  | Content Cell   | Content Cell                 | Content Cell         |
+| observeEvent  | Content Cell   | Content Cell                 | Content Cell         |
