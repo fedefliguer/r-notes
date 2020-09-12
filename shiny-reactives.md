@@ -11,8 +11,8 @@ print.data.frame(results)
 
 | comando       | crea un objeto | aguarda cumplimiento de algo | relación con outputs |
 | ------------- | -------------- | ---------------------------- | -------------------- |
-| reactive  | Content Cell   | Content Cell                 | Content Cell         |
-| eventReactive  | Content Cell   | Content Cell                 | Content Cell         |
-| reactiveValues  | Content Cell   | Content Cell                 | Content Cell         |
-| observe  | Content Cell   | Content Cell                 | Content Cell         |
-| observeEvent  | Content Cell   | Content Cell                 | Content Cell         |
+| reactive  | sí   | de cualquier input que contenga                 | Content Cell         |
+| eventReactive  | sí   | del input que se defina como evento                 | Content Cell         |
+| reactiveValues  | sí   | siempre está definido, pero se va actualizando                 | Content Cell         |
+| observe  | no   | de cualquier input que contenga                 | Content Cell         |
+| observeEvent  | no   | del input que se defina para observar                 | Content Cell         |
