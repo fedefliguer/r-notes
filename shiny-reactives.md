@@ -1,6 +1,6 @@
 # Resumen
 
-| comando       | crea un objeto | aguarda cumplimiento de algo | relación con outputs |
+| comando       | se define creando un objeto | aguarda cumplimiento de algo | relación con outputs |
 | ------------- | -------------- | ---------------------------- | -------------------- |
 | reactive  | sí   | de cualquier input que contenga                 | pueden llamarlo, con ()         |
 | eventReactive  | sí   | del input que se defina como evento                 | pueden llamarlo, con ()         |
