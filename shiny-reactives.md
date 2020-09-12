@@ -161,8 +161,6 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  
-  # observe button 1 press.
   observe({
     input$button1
     isolate(input$button2)
@@ -177,7 +175,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 ## observeEvent
-Es igual al observe, pero se asume que todos los inputs, excepto los referidos al inicio del observeEvent, están isolate().
+Es igual al observe, pero se asume que todos los inputs, excepto los referidos al inicio del observeEvent, están isolate(). El código del ejemplo hace lo mismo que el de observe, pero en ese caso porque explícitamente se evitaba la dependencia con el input$button2, y en este porque explícitamente se pide la dependencia sólo con el input$button1.
 
 ```{r}
 library(shiny)
@@ -194,10 +192,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  
-  # observe button 1 press.
   observeEvent(input$button1, {
-    # The observeEvent takes no dependency on button 2, even though we refer to the input in the following line.
     input$button2  
     showModal(modalDialog(
       title = "Button pressed",
