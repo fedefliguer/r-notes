@@ -6,5 +6,5 @@ aguarda_cumplimiento <- c("de cualquier input que contenga","del input que se de
 outputs <- c("pueden llamarlo, con ()","pueden llamarlo, con ()","pueden llamarlo, con $ (es una lista)","no pueden llamar a nada creado ahí, se pueden generar dentro","no pueden llamar a nada creado ahí, se pueden generar dentro")
 
 results <- data.frame(comando,crea_objeto,aguarda_cumplimiento, outputs)
-results
+print.data.frame(results)
 ```
