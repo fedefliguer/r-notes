@@ -9,7 +9,6 @@ results <- data.frame(comando,crea_objeto,aguarda_cumplimiento, outputs)
 print.data.frame(results)
 ```
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+| comando  | crea un objeto | aguarda cumplimiento de algo | relación con outputs |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| Content Cell  | Content Cell  | Content Cell  | Content Cell  | Content Cell  |
