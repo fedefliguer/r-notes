@@ -81,3 +81,66 @@ server <- function(input, output) {
 
 shinyApp(ui = ui, server = server)
 ```
+
+## reactiveValues
+Al igual que reactive, cuando cambia algún input que contiene se va actualizando. Es una lista de valores, y debería ser utilizado en los casos en los que no aplique reactive. Se elige reactiveValues en dos casos, especialmente. En primer lugar (ejemplo 1) cuando tenemos una variable que es una especie de 'estado' en la que el input lo actualiza, y no cuando el input es un valor en sí mismo. En segundo lugar (ejemplo 2), se prefiere reactiveValues cuando una variable puede ser actualizada en muchos lugares distintos del código.
+
+### ejemplo 1
+```{r}
+library(shiny)
+
+ui <- fluidPage(
+  "Total:",
+  textOutput("total", inline = TRUE),
+  actionButton("add1", "Add 1"),
+  actionButton("add5", "Add 5")
+)
+
+server <- function(input, output, session) {
+  values <- reactiveValues(total = 0)
+
+  observeEvent(input$add1, {
+    values$total <- values$total + 1
+  })
+  observeEvent(input$add5, {
+    values$total <- values$total + 5
+  })
+  output$total <- renderText({
+    values$total
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+### ejemplo 2
+```{r}
+library(shiny)
+
+fib <- function(n) ifelse(n < 3, 1, fib(n - 1) + fib(n - 2))
+
+ui <- fluidPage(
+  selectInput("nselect", "Choose a pre-defined number", 1:10),
+  numericInput("nfree", "Or type any number", 1),
+  "Fib number:",
+  textOutput("nthval", inline = TRUE)
+)
+
+server <- function(input, output, session) {
+  values <- reactiveValues(n = 1)
+  
+  observeEvent(input$nselect, {
+    values$n <- input$nselect
+  })
+  observeEvent(input$nfree, {
+    values$n <- input$nfree
+  })
+  output$nthval <- renderText({
+    fib(as.integer(values$n))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+
