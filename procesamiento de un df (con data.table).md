@@ -13,6 +13,7 @@ fread("chi_crimes.csv", header=TRUE,sep=",")
 ``` r
 dat1 = mydata[ , .(origin)] # Se queda con una columna
 dat3 = mydata[, .(origin, year, month, hour)] # Se queda con varias columnas
+dat3 = mydata[, c("origin", "year", "month", "hour"), with=FALSE] # Se queda con varias columnas definiendolas con comillas (hay que usar with=FALSE en esos casos)
 dat6 = mydata[, !c("origin", "year", "month"), with=FALSE] # Elimina
 
 dat9 = mydata[origin %in% c("JFK", "LGA")] # Filtra filas
