@@ -1,3 +1,4 @@
+``` r
 # Ejemplo 1 -> SVM con dataset Iris
 
 ## Instalación de librerías
@@ -42,4 +43,4 @@ ctrl = setMBOControlTermination(ctrl, iters = iters)
 
 ## Genero el objeto que guarda el resultado de la optimización.
 res = mbo(svm, control = ctrl, show.info = FALSE)
-
+```
